@@ -1,38 +1,38 @@
-Role Name
-=========
+# tumbumer.grub
 
-A brief description of the role goes here.
+Manage GRUB configuration.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+None.
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+* `tumbumer_grub_timeout`
+* `tumbumer_grub_cmdline_linux_default`
 
-Dependencies
-------------
+All variables are optional.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Dependencies
 
-Example Playbook
-----------------
+None.
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+## Example Playbook
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+---
+- hosts: all
+  vars:
+  - tumbumer_grub_timeout: 0
+  - tumbumer_grub_cmdline_linux_default: ipv6.disable=1 elevator=noop
+  roles:
+  - tumbumer.grub
+```
 
-License
--------
+## License
 
-BSD
+Apache-2.0
 
-Author Information
-------------------
+## Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Denis Dvoretskov aka tumbumer <denis@tumbum.com>

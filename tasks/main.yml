@@ -1,2 +1,36 @@
 ---
-# tasks file for grub
+- name: "tumbumer.grub: check os version"
+  fail:
+    msg: "OS must be Debian Jessie or Ubuntu 16.04 Xenial Xerus"
+  when: (not (ansible_distribution == "Debian" and ansible_distribution_release == "jessie")) and (not (ansible_distribution == "Ubuntu" and ansible_distribution_release == "xenial"))
+
+- name: "tumbumer.grub: check that the grub-common is installed"
+  command: "dpkg-query -s grub-common"
+  register: tumbumer_grub_check
+  failed_when: tumbumer_grub_check.rc != 0
+  changed_when: false
+
+- name: "tumbumer.grub: get status of the /etc/default/grub"
+  stat:
+    path: /etc/default/grub
+  register: tumbumer_grub_status
+
+- name: "tumbumer.grub: fail if /etc/default/grub is absent"
+  fail:
+    msg: "could not find /etc/default/grub"
+  when: tumbumer_grub_status.stat.exists == false
+
+- name: "tumbumer.grub: change the /etc/default/grub"
+  become: true
+  lineinfile:
+    dest: /etc/default/grub
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { doit: "{{ tumbumer_grub_timeout is defined }}", regexp: "GRUB_TIMEOUT=", line: "GRUB_TIMEOUT={{ tumbumer_grub_timeout | default() }}" }
+    - { doit: "{{ tumbumer_grub_cmdline_linux_default is defined }}", regexp: "GRUB_CMDLINE_LINUX_DEFAULT=", line: "GRUB_CMDLINE_LINUX_DEFAULT=\"{{ tumbumer_grub_cmdline_linux_default | default() }}\"" }
+  when: item.doit
+  notify:
+    - tumbumer-grub-update-grub
+    - tumbumer-grub-reboot
+    - tumbumer-grub-wait

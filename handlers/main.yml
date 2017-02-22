@@ -1,2 +1,14 @@
 ---
-# handlers file for grub
+- name: tumbumer-grub-update-grub
+  become: true
+  command: /usr/sbin/update-grub
+
+- name: tumbumer-grub-reboot
+  become: true
+  shell: sleep 3 && /sbin/shutdown -r now
+  async: 1
+  poll: 0
+  ignore_errors: true
+
+- name: tumbumer-grub-wait
+  local_action: wait_for host="{{ ansible_host }}" state=started timeout=20
