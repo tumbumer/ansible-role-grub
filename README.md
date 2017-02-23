@@ -8,10 +8,10 @@ None.
 
 ## Role Variables
 
-* `tumbumer_grub_timeout`
-* `tumbumer_grub_cmdline_linux_default`
-
-All variables are optional.
+var | default | choices | description
+---|---|---|---
+tumbumer_grub_timeout | | | `GRUB_TIMEOUT` in the `/etc/default/grub`
+tumbumer_grub_cmdline_linux_default | | | `GRUB_CMDLINE_LINUX_DEFAULT` in the `/etc/default/grub`
 
 ## Dependencies
 
