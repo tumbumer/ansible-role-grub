@@ -32,5 +32,3 @@
   when: item.doit
   notify:
     - tumbumer-grub-update-grub
-    - tumbumer-grub-reboot
-    - tumbumer-grub-wait
