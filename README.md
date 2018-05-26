@@ -24,7 +24,8 @@ None.
 - hosts: all
   vars:
   - tumbumer_grub_timeout: 0
-  - tumbumer_grub_cmdline_linux_default: ipv6.disable=1 quiet elevator=noop nohz=off fsck.repair=yes
+  - tumbumer_grub_cmdline_linux: ipv6.disable=1
+  - tumbumer_grub_cmdline_linux_default: ipv6.disable=1
   roles:
   - tumbumer.grub
 ```
